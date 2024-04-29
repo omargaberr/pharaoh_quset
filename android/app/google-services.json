@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "637982491647",
+    "project_id": "pharaoh-quest",
+    "storage_bucket": "pharaoh-quest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637982491647:android:11e886a3a7ff09d091ddca",
+        "android_client_info": {
+          "package_name": "com.example.pharaoh_quset"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpjI9mlan2Hg-HXtIqOrLaFLBDy-YLuNg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
