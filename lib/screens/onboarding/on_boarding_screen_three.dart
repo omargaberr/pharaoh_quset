@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pharaoh_quset/screens/onboarding/on_boarding_screen_one.dart';
-
+// dih el hate3mel fiha comment w tektebha men el awel
 class OnBoardingScreenThree extends StatelessWidget {
   const OnBoardingScreenThree({super.key});
 
