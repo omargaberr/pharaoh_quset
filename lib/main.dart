@@ -4,7 +4,7 @@ import 'package:pharaoh_quset/screens/splash%20screen/splash_screen.dart';
 // import 'package:pharaoh_quset/on_boarding_screen.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: const Color(0xFFEDF2F6),
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }
