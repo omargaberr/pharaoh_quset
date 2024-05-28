@@ -29,7 +29,8 @@ class OnBoardingScreenOne extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(
-                height: 170,
+                // 170
+                height: 195,
               ),
               const Text(
                 "Unlock the \nwonders of Egypt\nwith ease",
@@ -59,12 +60,14 @@ class OnBoardingScreenOne extends StatelessWidget {
                 ],
               ),
               const SizedBox(
-                height: 320,
+                // 320
+                height: 380,
               ),
               Row(
                 children: [
                   const SizedBox(
-                    width: 260,
+                    // 260
+                    width: 290,
                   ),
                   Container(
                     width: 50,

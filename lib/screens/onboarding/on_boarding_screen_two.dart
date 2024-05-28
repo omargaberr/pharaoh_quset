@@ -23,7 +23,8 @@ class OnBoardingScreenTwo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 430,
+              // 430
+              height: 490,
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -42,6 +43,7 @@ class OnBoardingScreenTwo extends StatelessWidget {
               ],
             ),
             const SizedBox(
+              // 50
               height: 50,
             ),
             Text(
@@ -60,7 +62,8 @@ class OnBoardingScreenTwo extends StatelessWidget {
             Row(
               children: [
                 const SizedBox(
-                  width: 260,
+                  // 260
+                  width: 295,
                 ),
                 Container(
                   width: 50,
