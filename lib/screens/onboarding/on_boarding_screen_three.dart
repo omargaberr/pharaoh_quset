@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pharaoh_quset/screens/pages/cart.dart';
-import 'package:pharaoh_quset/src/home_screen.dart';
 import 'package:pharaoh_quset/screens/login/login_screen.dart';
-import 'package:pharaoh_quset/screens/onboarding/on_boarding_screen_one.dart';
-import 'package:pharaoh_quset/screens/pages/home_page.dart';
-import 'package:pharaoh_quset/screens/pages/pyramid_detail.dart';
 
 // dih el hate3mel fiha comment w tektebha men el awel
 class OnBoardingScreenThree extends StatelessWidget {
@@ -91,7 +86,7 @@ class OnBoardingScreenThree extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               // change this to Login page after you test the homeappbar page
-                              builder: (context) => MyHomePage(),
+                              builder: (context) => const LoginPage(),
                             ));
                       },
                       icon: const Icon(Icons.arrow_forward_rounded),

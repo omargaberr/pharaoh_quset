@@ -12,7 +12,12 @@
           "package_name": "com.example.pharaoh_quset"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "637982491647-921oegcptvmq57jggbiocmu6t750aao5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDpjI9mlan2Hg-HXtIqOrLaFLBDy-YLuNg"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637982491647-921oegcptvmq57jggbiocmu6t750aao5.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "637982491647-009doo0ji8u8ca1ffcopnpe0si55q1dg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.pharaohQuset"
+              }
+            }
+          ]
         }
       }
     }

@@ -1,23 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pharaoh_quset/firebase_options.dart';
 import 'package:pharaoh_quset/screens/pages/cart.dart';
 import 'package:pharaoh_quset/screens/splash%20screen/splash_screen.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(ChangeNotifierProvider(
     create: (context) => Cart(),
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();

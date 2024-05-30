@@ -1,6 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pharaoh_quset/auth_service/auth_service.dart';
+import 'package:pharaoh_quset/screens/login/forgot_password_screen.dart';
 import 'package:pharaoh_quset/screens/login/signup_screen.dart';
+import 'package:pharaoh_quset/src/home_screen.dart';
+import 'package:pharaoh_quset/utils/utils.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -10,20 +14,44 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  // 2 new lines
-  // String? errorMessage = '';
-  // bool isLogin = true;
-  // final TextEditingController _controllerEmail = TextEditingController();
-  // final TextEditingController _controllerPassword = TextEditingController();
+  Auth auth = Auth();
+  String? errorMessage = '';
+  bool isLogin = true;
+  final _controllerEmail = TextEditingController();
+  final _controllerPassword = TextEditingController();
 
-  // Future<void> signInWithEmailAndPassword() async {
-  //   try {
-  //     await Auth().signInWithEmailAndPassword(
-  //       email: _controllerEmail.text,
-  //       password: _controllerPassword.text,
-  //     );
-  //   } on FirebaseAuthException catch (e) {}
-  // }
+  bool _validateForm(String email, String password) {
+    if (email.isEmpty || password.isEmpty) {
+      showSnackBar(context, "Email or Password are Empty");
+      return false;
+    }
+    return true;
+  }
+
+  Future<void> signInWithEmailAndPassword(BuildContext context) async {
+    final email = _controllerEmail.text.trim();
+    final password = _controllerPassword.text.trim();
+
+    if (!_validateForm(email, password)) {
+      return;
+    }
+
+    try {
+      await auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (context.mounted) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const MyHomePage()));
+      }
+    } on FirebaseAuthException catch (e) {
+      if (context.mounted) {
+        showSnackBar(context, e.message.toString());
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,14 +107,15 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextField(
-                    decoration: InputDecoration(
+                    controller: _controllerEmail,
+                    decoration: const InputDecoration(
                       hintText: "Email",
                       border: InputBorder.none,
                     ),
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ),
               ),
@@ -104,24 +133,28 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ],
                 ),
-                child: const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: TextField(
+                    controller: _controllerPassword,
                     obscureText: true,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       hintText: "Password",
                       border: InputBorder.none,
                     ),
-                    style: TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 14),
                   ),
                 ),
               ),
               const SizedBox(height: 10),
               Center(
                 child: GestureDetector(
-                  onTap: () {
-                    // Implement forgot password functionality
-                  },
+                  onTap: () => Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ForgotPasswordScreen(),
+                    ),
+                  ),
                   child: const Text(
                     "Forgot Password?",
                     style: TextStyle(
@@ -134,9 +167,7 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 20),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    // Implement login functionality
-                  },
+                  onPressed: () => signInWithEmailAndPassword(context),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
                     shape: RoundedRectangleBorder(
@@ -189,37 +220,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-// new adds embareh
-class Auth {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  User? get currentUser => _firebaseAuth.currentUser;
-  Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
-
-  Future<void> signInWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
-    await _firebaseAuth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-
-  Future<void> createUserWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
-    await _firebaseAuth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
-  }
-
-  Future<void> signOut() async {
-    await _firebaseAuth.signOut();
-  }
-}
-
 
 
 
