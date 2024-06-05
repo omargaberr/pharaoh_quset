@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pharaoh_quset/auth_service/auth_service.dart';
+import 'package:pharaoh_quset/screens/guide/guide_page.dart';
 import 'package:pharaoh_quset/screens/login/forgot_password_screen.dart';
 import 'package:pharaoh_quset/screens/login/signup_screen.dart';
+import 'package:pharaoh_quset/screens/pages/cart.dart';
 import 'package:pharaoh_quset/src/home_screen.dart';
 import 'package:pharaoh_quset/utils/utils.dart';
 
@@ -15,6 +18,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   Auth auth = Auth();
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   String? errorMessage = '';
   bool isLogin = true;
   final _controllerEmail = TextEditingController();
@@ -42,9 +46,19 @@ class _LoginPageState extends State<LoginPage> {
         password: password,
       );
 
-      if (context.mounted) {
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const MyHomePage()));
+      final userDoc =
+          await firestore.collection("Users").doc(auth.currentUser!.uid).get();
+      final userType = userDoc.data()!["Type"];
+      if (userType == "User") {
+        if (context.mounted) {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) => const MyHomePage()));
+        }
+      } else {
+        if (context.mounted) {
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => GuidePage()));
+        }
       }
     } on FirebaseAuthException catch (e) {
       if (context.mounted) {

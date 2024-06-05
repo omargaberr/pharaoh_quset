@@ -59,119 +59,124 @@ class _DahabDetailPageState extends State<DahabDetailPage> {
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
                       )),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 80),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Pyramids of Giza",
-                            style: GoogleFonts.ebGaramond(fontSize: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Dahab",
+                                style: GoogleFonts.ebGaramond(fontSize: 20),
+                              ),
+                              const Text(
+                                "4000 EGP",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 15),
+                              )
+                            ],
                           ),
-                          const Text(
-                            "400 EGP",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.black,
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Row(
+                            children: [
+                              Icon(
+                                Icons.location_on,
+                                color: Colors.black,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                "Egypt,Sinai",
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: [
+                              Wrap(
+                                children: List.generate(5, (index) {
+                                  return Icon(
+                                    Icons.star,
+                                    color: index < gottenStars
+                                        ? Colors.yellow
+                                        : Colors.grey,
+                                  );
+                                }),
+                              ),
+                              Text(
+                                "(4.0)",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              )
+                            ],
                           ),
                           SizedBox(
-                            width: 5,
+                            height: 20,
                           ),
                           Text(
-                            "Egypt,Sinai",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Wrap(
-                            children: List.generate(5, (index) {
-                              return Icon(
-                                Icons.star,
-                                color: index < gottenStars
-                                    ? Colors.yellow
-                                    : Colors.grey,
-                              );
-                            }),
-                          ),
-                          Text(
-                            "(4.0)",
+                            "People",
                             style: TextStyle(
-                              color: Colors.grey,
-                            ),
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 21),
+                          ),
+                          Text(
+                            "Number of people",
+                            style: TextStyle(color: Colors.grey, fontSize: 15),
+                          ),
+                          SizedBox(height: 10),
+                          Wrap(
+                              children: List.generate(5, (index) {
+                            return InkWell(
+                              onTap: () {
+                                setState(() {
+                                  selectedIndex = index;
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                child: AppButtons(
+                                  size: 50,
+                                  color: selectedIndex == index
+                                      ? Colors.white
+                                      : Colors.black,
+                                  backgroundColor: selectedIndex == index
+                                      ? Colors.black
+                                      : Colors.grey.withOpacity(0.2),
+                                  borderColor: selectedIndex == index
+                                      ? Colors.black
+                                      : Colors.grey.withOpacity(0.2),
+                                  text: (index + 1).toString(),
+                                ),
+                              ),
+                            );
+                          })),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            "Description",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          Text(
+                            "Dahab, on Egypt's Sinai Peninsula, is a charming seaside town known for its stunning beaches, world-class diving, vibrant coral reefs, and relaxed atmosphere. It's perfect for adventure seekers with activities like snorkeling, windsurfing, and desert excursions, as well as those looking to unwind.",
+                            style: GoogleFonts.robotoCondensed(
+                                color: const Color.fromARGB(255, 95, 95, 95)),
                           )
                         ],
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "People",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 21),
-                      ),
-                      Text(
-                        "Number of people",
-                        style: TextStyle(color: Colors.grey, fontSize: 15),
-                      ),
-                      SizedBox(height: 10),
-                      Wrap(
-                          children: List.generate(5, (index) {
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            child: AppButtons(
-                              size: 50,
-                              color: selectedIndex == index
-                                  ? Colors.white
-                                  : Colors.black,
-                              backgroundColor: selectedIndex == index
-                                  ? Colors.black
-                                  : Colors.grey.withOpacity(0.2),
-                              borderColor: selectedIndex == index
-                                  ? Colors.black
-                                  : Colors.grey.withOpacity(0.2),
-                              text: (index + 1).toString(),
-                            ),
-                          ),
-                        );
-                      })),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "Description",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      Text(
-                        "Dahab, on Egypt's Sinai Peninsula, is a charming seaside town known for its stunning beaches, world-class diving, vibrant coral reefs, and relaxed atmosphere. It's perfect for adventure seekers with activities like snorkeling, windsurfing, and desert excursions, as well as those looking to unwind.",
-                        style: GoogleFonts.robotoCondensed(
-                            color: const Color.fromARGB(255, 95, 95, 95)),
-                      )
-                    ],
+                    ),
                   ),
                 )),
             Positioned(

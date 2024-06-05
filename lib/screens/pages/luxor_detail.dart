@@ -16,6 +16,7 @@ class LuxorDetailPage extends StatefulWidget {
 class _LuxorDetailPageState extends State<LuxorDetailPage> {
   int gottenStars = 4;
   int selectedIndex = -1;
+  bool _isGuide = false;
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +81,23 @@ class _LuxorDetailPageState extends State<LuxorDetailPage> {
                               "Luxor",
                               style: GoogleFonts.ebGaramond(fontSize: 20),
                             ),
-                            const Text(
-                              "6000 EGP",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 15),
+                            Column(
+                              children: [
+                                const Text(
+                                  "6000 EGP",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                                if (_isGuide)
+                                  const Text(
+                                    "+500 EGP",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                              ],
                             ),
                           ],
                         ),
@@ -122,7 +136,37 @@ class _LuxorDetailPageState extends State<LuxorDetailPage> {
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                        const SizedBox(height: 10),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Text(
+                              "Book your tour guide",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w500),
+                            ),
+                            SizedBox(
+                              width: 55,
+                              height: 40,
+                              child: FittedBox(
+                                fit: BoxFit.fill,
+                                child: Switch(
+                                  value: _isGuide,
+                                  activeColor: Colors.green,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _isGuide = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+
+                        const SizedBox(
+                          height: 10,
+                        ),
                         const Text(
                           "People",
                           style: TextStyle(

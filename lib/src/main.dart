@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pharaoh_quset/firebase_options.dart';
+import 'package:pharaoh_quset/screens/guide/guide_page.dart';
 import 'package:pharaoh_quset/screens/pages/cart.dart';
 import 'package:pharaoh_quset/screens/splash%20screen/splash_screen.dart';
 import 'package:provider/provider.dart';

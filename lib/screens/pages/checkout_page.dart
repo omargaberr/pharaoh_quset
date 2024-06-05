@@ -18,8 +18,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
             appBar: AppBar(
               title: Text("Checkout Page [\$ ${cart.totalPrice}]"),
             ),
-            body: cart.basketItems.length == 0
-                ? Text("No items in your cart")
+            body: cart.basketItems.isEmpty
+                ? const Text("No items in your cart")
                 : ListView.builder(
                     itemCount: cart.basketItems.length,
                     itemBuilder: (context, index) {

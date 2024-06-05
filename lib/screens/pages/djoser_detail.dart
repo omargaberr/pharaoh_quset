@@ -50,130 +50,137 @@ class _DjoserDetailPageState extends State<DjoserDetailPage> {
             Positioned(
                 top: 280,
                 child: Container(
-                  padding: const EdgeInsets.only(left: 20, right: 20, top: 30),
-                  width: MediaQuery.of(context).size.width,
-                  height: 500,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                      )),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Pyramid of Djoser",
-                            style: GoogleFonts.ebGaramond(fontSize: 20),
-                          ),
-                          const Text(
-                            "300 EGP",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 15),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Colors.black,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            "Egypt,Giza",
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Wrap(
-                            children: List.generate(5, (index) {
-                              return Icon(
-                                Icons.star,
-                                color: index < gottenStars
-                                    ? Colors.yellow
-                                    : Colors.grey,
+                    padding:
+                        const EdgeInsets.only(left: 20, right: 20, top: 30),
+                    width: MediaQuery.of(context).size.width,
+                    height: 500,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        )),
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 80),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Pyramid of Djoser",
+                                  style: GoogleFonts.ebGaramond(fontSize: 20),
+                                ),
+                                const Text(
+                                  "300 EGP",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                )
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            const Row(
+                              children: [
+                                Icon(
+                                  Icons.location_on,
+                                  color: Colors.black,
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  "Egypt,Giza",
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Wrap(
+                                  children: List.generate(5, (index) {
+                                    return Icon(
+                                      Icons.star,
+                                      color: index < gottenStars
+                                          ? Colors.yellow
+                                          : Colors.grey,
+                                    );
+                                  }),
+                                ),
+                                Text(
+                                  "(4.0)",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "People",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 21),
+                            ),
+                            Text(
+                              "Number of people",
+                              style:
+                                  TextStyle(color: Colors.grey, fontSize: 15),
+                            ),
+                            SizedBox(height: 10),
+                            Wrap(
+                                children: List.generate(5, (index) {
+                              return InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    selectedIndex = index;
+                                  });
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  child: AppButtons(
+                                    size: 50,
+                                    color: selectedIndex == index
+                                        ? Colors.white
+                                        : Colors.black,
+                                    backgroundColor: selectedIndex == index
+                                        ? Colors.black
+                                        : Colors.grey.withOpacity(0.2),
+                                    borderColor: selectedIndex == index
+                                        ? Colors.black
+                                        : Colors.grey.withOpacity(0.2),
+                                    text: (index + 1).toString(),
+                                  ),
+                                ),
                               );
-                            }),
-                          ),
-                          Text(
-                            "(4.0)",
-                            style: TextStyle(
-                              color: Colors.grey,
+                            })),
+                            SizedBox(
+                              height: 20,
                             ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        "People",
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 21),
-                      ),
-                      Text(
-                        "Number of people",
-                        style: TextStyle(color: Colors.grey, fontSize: 15),
-                      ),
-                      SizedBox(height: 10),
-                      Wrap(
-                          children: List.generate(5, (index) {
-                        return InkWell(
-                          onTap: () {
-                            setState(() {
-                              selectedIndex = index;
-                            });
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(right: 10),
-                            child: AppButtons(
-                              size: 50,
-                              color: selectedIndex == index
-                                  ? Colors.white
-                                  : Colors.black,
-                              backgroundColor: selectedIndex == index
-                                  ? Colors.black
-                                  : Colors.grey.withOpacity(0.2),
-                              borderColor: selectedIndex == index
-                                  ? Colors.black
-                                  : Colors.grey.withOpacity(0.2),
-                              text: (index + 1).toString(),
+                            Text(
+                              "Description",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
                             ),
-                          ),
-                        );
-                      })),
-                      SizedBox(
-                        height: 20,
+                            Text(
+                              "The Pyramid of Djoser, located in Saqqara, Egypt, is the oldest known pyramid in the world.It marked a significant advancement in ancient Egyptian architecture, introducing the concept of the step pyramid.",
+                              style: GoogleFonts.robotoCondensed(
+                                  color: const Color.fromARGB(255, 95, 95, 95)),
+                            )
+                          ],
+                        ),
                       ),
-                      Text(
-                        "Description",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      Text(
-                        "The Pyramid of Djoser, located in Saqqara, Egypt, is the oldest known pyramid in the world.It marked a significant advancement in ancient Egyptian architecture, introducing the concept of the step pyramid.",
-                        style: GoogleFonts.robotoCondensed(
-                            color: const Color.fromARGB(255, 95, 95, 95)),
-                      )
-                    ],
-                  ),
-                )),
+                    ))),
             Positioned(
               bottom: 40,
               left: 20,
