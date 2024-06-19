@@ -1,15 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pharaoh_quset/screens/pages/Events/events_details.dart';
 import 'package:pharaoh_quset/screens/pages/cart.dart';
-import 'package:pharaoh_quset/screens/pages/cruise_detail.dart';
-import 'package:pharaoh_quset/screens/pages/dahab_detail.dart';
-import 'package:pharaoh_quset/screens/pages/djoser_detail.dart';
-import 'package:pharaoh_quset/screens/pages/exhibition_detail.dart';
-import 'package:pharaoh_quset/screens/pages/kingtut_detail.dart';
-import 'package:pharaoh_quset/screens/pages/luxor_detail.dart';
-import 'package:pharaoh_quset/screens/pages/museum_detail.dart';
-import 'package:pharaoh_quset/screens/pages/party_detail.dart';
-import 'package:pharaoh_quset/screens/pages/pyramid_detail.dart';
 import 'package:pharaoh_quset/screens/pages/temples.dart'; // Import the temple page
 import 'package:pharaoh_quset/screens/pages/riding.dart'; // Import the riding page
 import 'package:pharaoh_quset/screens/pages/diving.dart'; // Import the diving page
@@ -23,7 +16,18 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  final _firestore = FirebaseFirestore.instance;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  Map<String, dynamic> events = {};
+  Map<String, dynamic> places = {};
+  Map<String, dynamic> trips = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchData();
+  }
 
   var images = {
     "temple.jpg": "Temples",
@@ -32,87 +36,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     "food.jpg": "Food"
   };
 
-  // List of pyramid images
-  var pyramidImages = ["pyramid1.jpg", "pyramid4.jpg", "pyramid3.jpg"];
-
-  // List of event images
-  var eventImages = ["event1.jpg", "event2.jpg", "event3.webp"];
-
-  // List of trip images
-  var tripImages = ["trip1.webp", "trip2.jpeg", "trip3.jpg"];
-
-  void _navigateToDetailPage(BuildContext context, String image) {
-    Widget page;
-    switch (image) {
-      case "pyramid1.jpg":
-        page = PyramidDetailPage();
-        break;
-      case "pyramid4.jpg":
-        page = MuseumDetailPage();
-        break;
-      case "pyramid3.jpg":
-        page = DjoserDetailPage();
-        break;
-
-      case "event1.jpg":
-        page = KingTutDetailPage();
-        break;
-      case "event2.jpg":
-        page = PartyDetailPage();
-        break;
-      case "event3.webp":
-        page = ExhibitionDetailPage();
-        break;
-
-      case "trip1.webp":
-        page = CruiseDetailPage();
-        break;
-      case "trip2.jpeg":
-        page = LuxorDetailPage();
-        break;
-      case "trip3.jpg":
-        page = DahabDetailPage();
-        break;
-
-      default:
-        page = PyramidDetailPage(); // Default case, you can handle it as needed
-        break;
-    }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
-
-  // Function to handle navigation to other pages from the bottom containers
-  void _navigateToOtherPage(BuildContext context, String image) {
-    Widget page;
-    switch (image) {
-      case "temple.jpg":
-        page = TemplePage();
-        break;
-      case "riding.webp":
-        page = RidingPage();
-        break;
-      case "Diving.jpg":
-        page = DivingPage();
-        break;
-      case "food.jpg":
-        page = FoodPage();
-        break;
-      default:
-        page = TemplePage(); // Default case, you can handle it as needed
-        break;
-    }
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => page),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController tabController = TabController(length: 3, vsync: this);
     return Scaffold(
       key: _scaffoldKey,
       drawer: const NavBar(), // Use NavBar as the drawer
@@ -131,10 +57,12 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                 ),
                 Expanded(child: Container()),
                 IconButton(
-                  icon: Icon(Icons.shopping_cart),
+                  icon: const Icon(Icons.shopping_cart),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => CartScreen()));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const CartScreen()));
                   },
                   color: Colors.grey.withOpacity(0.5),
                   iconSize: 50,
@@ -164,7 +92,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             alignment: Alignment.centerLeft,
             child: TabBar(
               labelPadding: const EdgeInsets.only(left: 10, right: 20),
-              controller: _tabController,
+              controller: tabController,
               labelColor: Colors.black,
               unselectedLabelColor: Colors.grey,
               isScrollable: true,
@@ -182,81 +110,33 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             height: 300,
             width: double.maxFinite,
             child: TabBarView(
-              controller: _tabController,
+              controller: tabController,
               children: [
                 ListView.builder(
-                  itemCount: pyramidImages.length,
+                  itemCount: places.length,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        _navigateToDetailPage(context, pyramidImages[index]);
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 15, top: 10),
-                        width: 200,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                          image: DecorationImage(
-                            image: AssetImage(
-                                "assets/images/${pyramidImages[index]}"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
+                  itemBuilder: (context, index) {
+                    final key = places.keys.elementAt(index);
+                    final data = places[key];
+                    return getItems(data);
                   },
                 ),
                 ListView.builder(
-                  itemCount: eventImages.length,
+                  itemCount: events.length,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        _navigateToDetailPage(context, eventImages[index]);
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 15, top: 10),
-                        width: 200,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                          image: DecorationImage(
-                            image: AssetImage(
-                                "assets/images/${eventImages[index]}"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
+                  itemBuilder: (context, index) {
+                    final key = events.keys.elementAt(index);
+                    final data = events[key];
+                    return getItems(data);
                   },
                 ),
                 ListView.builder(
-                  itemCount: tripImages.length,
+                  itemCount: trips.length,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        _navigateToDetailPage(context, tripImages[index]);
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 15, top: 10),
-                        width: 200,
-                        height: 300,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          color: Colors.white,
-                          image: DecorationImage(
-                            image: AssetImage(
-                                "assets/images/${tripImages[index]}"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    );
+                  itemBuilder: (context, index) {
+                    final key = trips.keys.elementAt(index);
+                    final data = trips[key];
+                    return getItems(data);
                   },
                 ),
               ],
@@ -328,6 +208,85 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Function to handle navigation to other pages from the bottom containers
+  void _navigateToOtherPage(BuildContext context, String image) {
+    Widget page;
+    switch (image) {
+      case "temple.jpg":
+        page = TemplesPage();
+        break;
+      case "riding.webp":
+        page = RidingPage();
+        break;
+      case "Diving.jpg":
+        page = DivingPage();
+        break;
+      case "food.jpg":
+        page = FoodPage();
+        break;
+      default:
+        page = TemplesPage(); // Default case, you can handle it as needed
+        break;
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => page),
+    );
+  }
+
+  Future<void> _fetchData() async {
+    final eventsCollection = _firestore.collection("Events");
+    final placesCollection = _firestore.collection("Places");
+    final tripsCollection = _firestore.collection("Trips");
+
+    final eventsSnapshot = await eventsCollection.get();
+    final placesSnapshot = await placesCollection.get();
+    final tripsSnapshot = await tripsCollection.get();
+
+    setState(() {
+      for (var doc in eventsSnapshot.docs) {
+        events[doc.id] = doc.data();
+      }
+
+      for (var doc in placesSnapshot.docs) {
+        places[doc.id] = doc.data();
+      }
+
+      for (var doc in tripsSnapshot.docs) {
+        trips[doc.id] = doc.data();
+      }
+    });
+  }
+
+  Widget getItems(Map<String, dynamic> itemData) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => EventDetails(args: itemData),
+          ),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(right: 15, top: 10),
+        width: 200,
+        height: 300,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Image.network(
+            itemData["imageUrl"]!,
+            fit: BoxFit.cover,
+          ),
+        ),
       ),
     );
   }

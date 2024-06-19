@@ -17,7 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   final List<Widget> pages = [
     HomePage(),
     Searchpage(),
-    ProfilPage(), // Replace MyProfilePage() with your profile page widget
+    ProfilePage(), // Replace MyProfilePage() with your profile page widget
   ];
 
   void onTap(int index) {

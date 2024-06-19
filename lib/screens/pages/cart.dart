@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pharaoh_quset/screens/pages/cart_items.dart';
-import 'package:pharaoh_quset/screens/pages/checkout_page.dart';
+import 'package:pharaoh_quset/paymob/checkout_page.dart';
 import 'package:provider/provider.dart';
 
 class Cart extends ChangeNotifier {
@@ -51,20 +51,20 @@ class _CartScreenState extends State<CartScreen> {
       builder: (context, cart, child) {
         return Scaffold(
           appBar: AppBar(
-            title: Text('Cart'),
+            title: const Text('Cart'),
             actions: <Widget>[
               Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Row(
                   children: <Widget>[
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.shopping_cart,
                         color: Colors.grey,
                       ),
                       onPressed: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => CheckoutPage(),
+                          builder: (context) => const CheckoutPage(),
                         ));
                       },
                     ),
@@ -81,11 +81,26 @@ class _CartScreenState extends State<CartScreen> {
             itemBuilder: (context, index) {
               return ListTile(
                 // title text (items[index].title),
+                leading: Container(
+                  width: 60,
+                  height: 60,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(60)),
+                    color: Color(0xffd9d9d9),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(60),
+                    child: Image.network(
+                      cart.basketItems[index].imageUrl,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
                 title: Text(cart.basketItems[index].title),
                 // items[index]
                 subtitle: Text(cart.basketItems[index].price.toString()),
                 trailing: IconButton(
-                  icon: Icon(Icons.remove),
+                  icon: const Icon(Icons.remove),
                   onPressed: () {
                     cart.remove(cart.basketItems[index]);
                   },

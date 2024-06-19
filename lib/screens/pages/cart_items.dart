@@ -2,15 +2,11 @@
 class Item {
   String title;
   double price;
-  String image;
+  String imageUrl;
   // final int quantity;
   // i added image here if it didnt work remove it (last update)
 
-  Item(
-    this.title,
-    this.price,
-    this.image
-  );
+  Item(this.title, this.price, this.imageUrl);
 }
 
 

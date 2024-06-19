@@ -15,24 +15,28 @@ class _GuidePageState extends State<GuidePage> {
       "1": {
         "name": "Omar Gaber",
         "detail": "Giza Pyramids",
+        "language": "English",
         "time": "09:30 AM",
         "date": "Thursday, 12/22/2022"
       },
       "2": {
         "name": "Omar Gaber",
         "detail": "Giza Pyramids",
+        "language": "French",
         "time": "09:30 AM",
         "date": "Thursday, 12/22/2022"
       },
       "3": {
         "name": "Omar Gaber",
         "detail": "Giza Pyramids",
+        "language": "English",
         "time": "09:30 AM",
         "date": "Thursday, 12/22/2022"
       },
       "4": {
         "name": "Omar Gaber",
         "detail": "Giza Pyramids",
+        "language": "English",
         "time": "09:30 AM",
         "date": "Thursday, 12/22/2022"
       }
@@ -41,11 +45,13 @@ class _GuidePageState extends State<GuidePage> {
       "1": {
         "name": "Omar Gaber",
         "detail": "Giza Pyramids",
+        "language": "English",
         "time": "09:30 AM",
         "date": "Thursday, 12/22/2022"
       }
     },
   };
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,6 +187,15 @@ class _GuidePageState extends State<GuidePage> {
                 ),
                 Text(
                   e.value["detail"],
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                  ),
+                ),
+                Text(
+                  e.value[
+                      "language"], 
                   style: const TextStyle(
                     color: Colors.black,
                     fontWeight: FontWeight.w400,
