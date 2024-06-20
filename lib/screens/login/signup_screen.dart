@@ -4,7 +4,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pharaoh_quset/auth_service/auth_service.dart';
 import 'package:pharaoh_quset/screens/guide/guide_page.dart';
-import 'package:pharaoh_quset/screens/pages/cart.dart';
 import 'package:pharaoh_quset/src/home_screen.dart';
 import 'package:pharaoh_quset/utils/utils.dart';
 
@@ -68,6 +67,7 @@ class _SignupPageState extends State<SignupPage> {
         "Email": email,
         "PhoneNumber": phoneNumber,
         "Type": dropDownValue,
+        if (dropDownValue == "User") "Bookings": [],
       });
 
       if (dropDownValue == "User") {

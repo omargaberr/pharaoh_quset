@@ -6,15 +6,15 @@ import 'package:pharaoh_quset/widgets/app_button.dart';
 import 'package:pharaoh_quset/widgets/responsive_button.dart';
 import 'package:provider/provider.dart';
 
-class EventsDetails extends StatefulWidget {
+class PlacesDetails extends StatefulWidget {
   final Map<String, dynamic> args;
-  const EventsDetails({super.key, required this.args});
+  const PlacesDetails({super.key, required this.args});
 
   @override
-  State<EventsDetails> createState() => _EventsDetailsState();
+  State<PlacesDetails> createState() => _PlacesDetailsState();
 }
 
-class _EventsDetailsState extends State<EventsDetails> {
+class _PlacesDetailsState extends State<PlacesDetails> {
   late String name;
   late String description;
   late String location;
@@ -258,7 +258,105 @@ class _EventsDetailsState extends State<EventsDetails> {
                         const SizedBox(
                           height: 30,
                         ),
-
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              children: [
+                                Text(
+                                  "${selectedDate.toLocal()}".split(' ')[0],
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16),
+                                ),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ElevatedButton(
+                                  style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                      Color(0xffd9d9d9),
+                                    ),
+                                  ),
+                                  onPressed: () => _selectDate(context),
+                                  child: const Text(
+                                    'Select date',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Text(
+                                  selectedTime.format(context),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20.0,
+                                ),
+                                ElevatedButton(
+                                  style: const ButtonStyle(
+                                    backgroundColor: MaterialStatePropertyAll(
+                                      Color(0xffd9d9d9),
+                                    ),
+                                  ),
+                                  onPressed: () => _selectTime(context),
+                                  child: const Text(
+                                    'Select Time',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 16,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Select tour language:",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                ),
+                              ),
+                              DropdownButton(
+                                value: dropDownValue,
+                                items: language.map((String e) {
+                                  return DropdownMenuItem(
+                                    value: e,
+                                    child: Text(e),
+                                  );
+                                }).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    dropDownValue = value!;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
                         const Text(
                           "Description",
                           style: TextStyle(

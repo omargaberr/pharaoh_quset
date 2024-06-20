@@ -1,12 +1,29 @@
 // the items that will be added to the cart (trips,places and activities)
+import 'package:flutter/material.dart';
+
 class Item {
   String title;
   double price;
   String imageUrl;
+  DateTime date;
+  TimeOfDay time;
+  String? language;
   // final int quantity;
   // i added image here if it didnt work remove it (last update)
 
-  Item(this.title, this.price, this.imageUrl);
+  Item(this.title, this.price, this.imageUrl, this.date, this.time,
+      this.language);
+
+  Map<String, dynamic> toMap() {
+    return {
+      'Title': title,
+      'Price': price,
+      'imageUrl': imageUrl,
+      'Date': "${date.toLocal()}".split(' ')[0],
+      "time": "${time.hour}:${time.minute}",
+      if (language != null) "language": language,
+    };
+  }
 }
 
 

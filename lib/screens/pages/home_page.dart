@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pharaoh_quset/screens/pages/Events/events_details.dart';
 import 'package:pharaoh_quset/screens/pages/cart.dart';
+import 'package:pharaoh_quset/screens/pages/places/places_details.dart';
 import 'package:pharaoh_quset/screens/pages/temples.dart'; // Import the temple page
 import 'package:pharaoh_quset/screens/pages/riding.dart'; // Import the riding page
 import 'package:pharaoh_quset/screens/pages/diving.dart'; // Import the diving page
@@ -118,7 +119,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   itemBuilder: (context, index) {
                     final key = places.keys.elementAt(index);
                     final data = places[key];
-                    return getItems(data);
+                    return getItems(data, true);
                   },
                 ),
                 ListView.builder(
@@ -127,7 +128,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   itemBuilder: (context, index) {
                     final key = events.keys.elementAt(index);
                     final data = events[key];
-                    return getItems(data);
+                    return getItems(data, false);
                   },
                 ),
                 ListView.builder(
@@ -136,7 +137,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                   itemBuilder: (context, index) {
                     final key = trips.keys.elementAt(index);
                     final data = trips[key];
-                    return getItems(data);
+                    return getItems(data, false);
                   },
                 ),
               ],
@@ -262,13 +263,15 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     });
   }
 
-  Widget getItems(Map<String, dynamic> itemData) {
+  Widget getItems(Map<String, dynamic> itemData, bool isPlaces) {
     return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => EventDetails(args: itemData),
+            builder: (context) => isPlaces
+                ? PlacesDetails(args: itemData)
+                : EventsDetails(args: itemData),
           ),
         );
       },
