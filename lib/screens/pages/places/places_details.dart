@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pharaoh_quset/screens/pages/cart.dart';
@@ -15,6 +16,7 @@ class PlacesDetails extends StatefulWidget {
 }
 
 class _PlacesDetailsState extends State<PlacesDetails> {
+  final _auth = FirebaseAuth.instance;
   late String name;
   late String description;
   late String location;
@@ -398,12 +400,14 @@ class _PlacesDetailsState extends State<PlacesDetails> {
                     onPressed: () {
                       Provider.of<Cart>(context, listen: false).add(
                         Item(
+                          _auth.currentUser!.uid,
                           name,
                           totalPrice.toDouble(),
                           imageUrl,
                           selectedDate,
                           selectedTime,
                           dropDownValue,
+                          "Booked",
                         ),
                       );
                     },

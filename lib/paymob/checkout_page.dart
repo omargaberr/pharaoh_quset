@@ -14,8 +14,8 @@ class CheckoutPage extends StatefulWidget {
 }
 
 class _CheckoutPageState extends State<CheckoutPage> {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _firestore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Consumer<Cart>(
@@ -61,27 +61,41 @@ class _CheckoutPageState extends State<CheckoutPage> {
                           InkWell(
                             onTap: () async {
                               // _pay(cart.totalPrice.toInt());
-                              DocumentSnapshot userDoc = await _firestore
+                              final userDocRef = _firestore
                                   .collection("Users")
-                                  .doc(_auth.currentUser!.uid)
-                                  .get();
+                                  .doc(_auth.currentUser!.uid);
 
-                              List<Map<String, dynamic>> newBooking = cart
+                              final userDoc = await userDocRef.get();
+
+                              List<dynamic> existingBookings =
+                                  userDoc.get("Bookings") ?? [];
+
+                              List<Map<String, dynamic>> newBookingItems = cart
                                   .basketItems
                                   .map((item) => item.toMap())
                                   .toList();
 
-                              List<dynamic> bookings =
-                                  userDoc.get("Bookings") ?? [];
+                              for (Map<String, dynamic> item
+                                  in newBookingItems) {
+                                late DocumentReference docRef;
+                                print(item);
+                                if (item.containsKey("Language")) {
+                                  docRef = await _firestore
+                                      .collection("PlacesBookings")
+                                      .add(item);
+                                } else {
+                                  docRef = await _firestore
+                                      .collection("NormalBookings")
+                                      .add(item);
+                                }
 
-                              for (var item in newBooking) {
-                                bookings.add(item);
+                                final docId = docRef.id;
+
+                                existingBookings.add(docId);
                               }
 
-                              await _firestore
-                                  .collection("Users")
-                                  .doc(_auth.currentUser!.uid)
-                                  .update({"Bookings": bookings});
+                              await userDocRef
+                                  .update({"Bookings": existingBookings});
                             },
                             child: Container(
                               alignment: Alignment.center,

@@ -2,26 +2,30 @@
 import 'package:flutter/material.dart';
 
 class Item {
+  String uid;
   String title;
   double price;
   String imageUrl;
   DateTime date;
   TimeOfDay time;
   String? language;
+  String status;
   // final int quantity;
   // i added image here if it didnt work remove it (last update)
 
-  Item(this.title, this.price, this.imageUrl, this.date, this.time,
-      this.language);
+  Item(this.uid, this.title, this.price, this.imageUrl, this.date, this.time,
+      this.language, this.status);
 
   Map<String, dynamic> toMap() {
     return {
-      'Title': title,
-      'Price': price,
-      'imageUrl': imageUrl,
-      'Date': "${date.toLocal()}".split(' ')[0],
-      "time": "${time.hour}:${time.minute}",
-      if (language != null) "language": language,
+      "uid": uid,
+      "Title": title,
+      "Price": price,
+      "imageUrl": imageUrl,
+      "Date": "${date.toLocal()}".split(' ')[0],
+      "Time": "${time.hour}:${time.minute}",
+      if (language != null) "Language": language,
+      "Status": status,
     };
   }
 }
