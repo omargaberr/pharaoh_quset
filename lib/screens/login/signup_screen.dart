@@ -37,7 +37,7 @@ class _SignupPageState extends State<SignupPage> {
     "Italian",
   ];
   String? dropDownValue = 'User';
-  String? guideLanguageValue;
+  String? guideLanguageValue = 'English';
 
   @override
   void dispose() {
