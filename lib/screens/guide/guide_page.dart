@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pharaoh_quset/screens/guide/guide_profile.dart';
 
@@ -138,7 +139,7 @@ class _GuidePageState extends State<GuidePage> {
           vertical: 10,
           horizontal: 15,
         ),
-        height: 150,
+        height: _isUpcoming ? 200 : 150,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(18)),
           border: Border.all(color: Colors.black, width: 2),
@@ -256,7 +257,13 @@ class _GuidePageState extends State<GuidePage> {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      await FirebaseFirestore.instance
+                          .collection("PlacesBookings")
+                          .doc(e.key)
+                          .update(
+                              {"gid": FirebaseAuth.instance.currentUser!.uid});
+                    },
                     child: Container(
                       alignment: Alignment.center,
                       width: 150,
