@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pharaoh_quset/screens/guide/guide_page.dart';
 import 'package:pharaoh_quset/screens/login/login_screen.dart';
+import 'package:pharaoh_quset/src/home_screen.dart';
 
 // dih el hate3mel fiha comment w tektebha men el awel
 class OnBoardingScreenThree extends StatelessWidget {
@@ -81,13 +85,37 @@ class OnBoardingScreenThree extends StatelessWidget {
                       ],
                     ),
                     child: IconButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
+                      onPressed: () async {
+                        if (FirebaseAuth.instance.currentUser == null) {
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              // change this to Login page after you test the homeappbar page
                               builder: (context) => const LoginPage(),
-                            ));
+                            ),
+                          );
+                        } else {
+                          final userDoc = await FirebaseFirestore.instance
+                              .collection("Users")
+                              .doc(FirebaseAuth.instance.currentUser!.uid)
+                              .get();
+                          final userType = userDoc.data()!["Type"];
+                          if (userType == "User") {
+                            if (context.mounted) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const MyHomePage()));
+                            }
+                          } else {
+                            if (context.mounted) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const GuidePage()));
+                            }
+                          }
+                        }
                       },
                       icon: const Icon(Icons.arrow_forward_rounded),
                       color: Colors.white,

@@ -5,7 +5,6 @@ import 'package:pharaoh_quset/auth_service/auth_service.dart';
 import 'package:pharaoh_quset/screens/guide/guide_page.dart';
 import 'package:pharaoh_quset/screens/login/forgot_password_screen.dart';
 import 'package:pharaoh_quset/screens/login/signup_screen.dart';
-import 'package:pharaoh_quset/screens/pages/cart.dart';
 import 'package:pharaoh_quset/src/home_screen.dart';
 import 'package:pharaoh_quset/utils/utils.dart';
 

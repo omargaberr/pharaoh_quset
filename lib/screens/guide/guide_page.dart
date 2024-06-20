@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class GuidePage extends StatefulWidget {
@@ -8,49 +9,15 @@ class GuidePage extends StatefulWidget {
 }
 
 class _GuidePageState extends State<GuidePage> {
-  bool _isUpcoming = false;
+  bool _isUpcoming = true;
 
-  Map<String, dynamic> appointments = {
-    "past": {
-      "1": {
-        "name": "Omar Gaber",
-        "detail": "Giza Pyramids",
-        "language": "English",
-        "time": "09:30 AM",
-        "date": "Thursday, 12/22/2022"
-      },
-      "2": {
-        "name": "Omar Gaber",
-        "detail": "Giza Pyramids",
-        "language": "French",
-        "time": "09:30 AM",
-        "date": "Thursday, 12/22/2022"
-      },
-      "3": {
-        "name": "Omar Gaber",
-        "detail": "Giza Pyramids",
-        "language": "English",
-        "time": "09:30 AM",
-        "date": "Thursday, 12/22/2022"
-      },
-      "4": {
-        "name": "Omar Gaber",
-        "detail": "Giza Pyramids",
-        "language": "English",
-        "time": "09:30 AM",
-        "date": "Thursday, 12/22/2022"
-      }
-    },
-    "upcoming": {
-      "1": {
-        "name": "Omar Gaber",
-        "detail": "Giza Pyramids",
-        "language": "English",
-        "time": "09:30 AM",
-        "date": "Thursday, 12/22/2022"
-      }
-    },
-  };
+  Map<String, Map<String, dynamic>> appointments = {"past": {}, "upcoming": {}};
+
+  @override
+  void initState() {
+    super.initState();
+    _getBookings();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -147,16 +114,18 @@ class _GuidePageState extends State<GuidePage> {
                   children: [...getAppointments(appointments)],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  List<Widget> getAppointments(Map<String, dynamic> allAppointments) {
-    Map<String, dynamic> appointments =
-        _isUpcoming ? allAppointments["upcoming"] : allAppointments["past"];
+  List<Widget> getAppointments(
+      Map<String, Map<String, dynamic>> allAppointments) {
+    Map<String, dynamic> appointments = _isUpcoming
+        ? allAppointments["upcoming"] ?? {}
+        : allAppointments["past"] ?? {};
     return appointments.entries.map((e) {
       return Container(
         margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
@@ -164,7 +133,7 @@ class _GuidePageState extends State<GuidePage> {
           vertical: 10,
           horizontal: 15,
         ),
-        height: 180,
+        height: 150,
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(18)),
           border: Border.all(color: Colors.black, width: 2),
@@ -174,32 +143,39 @@ class _GuidePageState extends State<GuidePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  e.value["name"],
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 16,
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      e.value["Title"],
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      "Tour Language: ${e.value["Language"]}",
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
                 ),
-                Text(
-                  e.value["detail"],
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
-                  ),
-                ),
-                Text(
-                  e.value[
-                      "language"], 
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16,
+                SizedBox(
+                  height: 80,
+                  width: 80,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(60),
+                    child: Image.network(
+                      e.value["imageUrl"],
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ],
@@ -217,7 +193,7 @@ class _GuidePageState extends State<GuidePage> {
                       width: 5,
                     ),
                     Text(
-                      e.value["date"],
+                      e.value["Date"],
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
@@ -236,7 +212,7 @@ class _GuidePageState extends State<GuidePage> {
                       width: 5,
                     ),
                     Text(
-                      e.value["time"],
+                      e.value["Time"],
                       style: const TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
@@ -304,5 +280,36 @@ class _GuidePageState extends State<GuidePage> {
         ),
       );
     }).toList();
+  }
+
+  Future<void> _getBookings() async {
+    Map<String, Map<String, dynamic>> categorizedBookings = {
+      'past': {},
+      'upcoming': {}
+    };
+
+    DateTime now = DateTime.now();
+
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('PlacesBookings').get();
+
+    for (QueryDocumentSnapshot doc in querySnapshot.docs) {
+      Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+      String dateStr = data['Date'] as String;
+      String timeStr = data['Time'] as String;
+
+      DateTime bookingDateTime = DateTime.parse("$dateStr $timeStr");
+
+      if (bookingDateTime.isBefore(now)) {
+        categorizedBookings['past']![doc.id] = data;
+      } else {
+        categorizedBookings['upcoming']![doc.id] = data;
+      }
+    }
+
+    setState(() {
+      appointments = categorizedBookings;
+    });
   }
 }
