@@ -4,7 +4,7 @@ A mobile app designed to help tourists and natives in Egypt book tour guides, tr
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+This project is a Flutter built application.
 
 A few resources to get you started if this is your first Flutter project:
 
