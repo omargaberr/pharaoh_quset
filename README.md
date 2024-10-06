@@ -1,6 +1,6 @@
 # pharaoh_quset
 
-A new Flutter project.
+A mobile app designed to help tourists and natives in Egypt book tour guides, trips, and tickets.
 
 ## Getting Started
 
